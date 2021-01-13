@@ -57,13 +57,35 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
 
     tape('build', (assert) => { buildQueued(conf.poi, assert.end); });
 
-    tape('Search', (assert) => {
+    tape('Search "District"', (assert) => {
         c.geocode('District', { autocomplete: true }, (err, res) => {
             assert.ifError(err);
             assert.equal(res.features.length, 2, 'Don\'t return features where the token-replaced query is the beginning of another word');
             assert.deepEqual(res.features[0].place_name, 'District', 'Return features that exactly match the token-replaced query');
             assert.deepEqual(res.features[1].place_name, 'District Taco', 'Return features that autocomplete with a word boundary');
             assert.end();
+        });
+    });
+
+    tape('Search "dt"', (assert) => {
+        c.geocode('dt', { autocomplete: true }, (err, res) => {
+            assert.ifError(err);
+            assert.equal(res.features.length, 3, 'Return all features for a query of "dt" matching both abbreviated district and prefix-matching dtown');
+            assert.end();
+        });
+    });
+
+    tape('Search "dt "', (assert) => {
+        c.geocode('dt ', { autocomplete: true }, (err, res) => {
+            assert.ifError(err);
+            assert.equal(res.features.length, 2, 'With terminal space, only match full-word version, not dtown');
+            assert.deepEqual(res.features.map((feat) => feat.id), ['poi.2', 'poi.3'], 'Omit dtown party bus');
+
+            c.geocode('dt/', { autocomplete: true }, (err, slashRes) => {
+                assert.ifError(err);
+                assert.deepEqual(res, slashRes, 'whitespace and other boundaries behave the same');
+                assert.end();
+            });
         });
     });
 })();
