@@ -1,5 +1,9 @@
 # Changelog
 
+## 33.3.1
+
+- Modify treatment of autocomplete queries ending in whitespace or other word-boundary characters, such that they no longer allow prefix maching where the last token before the boundary is treated is a partial word; prefix matches in this case must now have a word boundary between the last word and any subsequent words.
+
 ## 33.3.0
 
 - Make comparison operators available in all Carmen handlebars templates (e.g., `eq`)
