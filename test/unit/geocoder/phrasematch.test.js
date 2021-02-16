@@ -5,7 +5,7 @@ const tape = require('tape');
 const phrasematch = require('../../../lib/geocoder/phrasematch');
 const termops = require('../../../lib/text-processing/termops');
 const token = require('../../../lib/text-processing/token');
-const ENDING_TYPE = require('@mapbox/node-fuzzy-phrase').ENDING_TYPE;
+const ENDING_TYPE = require('@mapbox/carmen-core').ENDING_TYPE;
 
 function bearablePermutations(permutations) {
     return permutations.map((v) => {
@@ -364,14 +364,14 @@ tape('fuzzyMatchMulti - correct address permutations: all numbers', (t) => {
         fuzzyMatchMulti: (a, b, c, d) => {
             const expected = [
                 { phrase: ['100', '200', '300'], mask: 7, ender: true, ending_type: 0, phrase_id_range: [0, 0] },
-                { phrase: ['3##', '100', '200'], mask: 7, ender: false, ending_type: 0, phrase_id_range: [0, 0] },
                 { phrase: ['1##', '200', '300'], mask: 7, ender: true, ending_type: 0, phrase_id_range: [0, 0] },
-                { phrase: ['3##', '200'], mask: 6, ender: false, ending_type: 0, phrase_id_range: [0, 0] },
-                { phrase: ['1##', '200'], mask: 3, ender: false, ending_type: 0, phrase_id_range: [0, 0] },
-                { phrase: ['2##', '300'], mask: 6, ender: true, ending_type: 0, phrase_id_range: [0, 0] },
-                { phrase: ['200', '300'], mask: 6, ender: true, ending_type: 0, phrase_id_range: [0, 0] },
+                { phrase: ['3##', '100', '200'], mask: 7, ender: false, ending_type: 0, phrase_id_range: [0, 0] },
                 { phrase: ['100', '200'], mask: 3, ender: false, ending_type: 0, phrase_id_range: [0, 0] },
+                { phrase: ['200', '300'], mask: 6, ender: true, ending_type: 0, phrase_id_range: [0, 0] },
+                { phrase: ['1##', '200'], mask: 3, ender: false, ending_type: 0, phrase_id_range: [0, 0] },
                 { phrase: ['2##', '100'], mask: 3, ender: false, ending_type: 0, phrase_id_range: [0, 0] },
+                { phrase: ['2##', '300'], mask: 6, ender: true, ending_type: 0, phrase_id_range: [0, 0] },
+                { phrase: ['3##', '200'], mask: 6, ender: false, ending_type: 0, phrase_id_range: [0, 0] },
             ];
             const actual = bearablePermutations(a);
             t.deepEqual(actual, expected);
@@ -677,4 +677,3 @@ tape('fuzzyMatchMulti - masks for intersection queries', (t) => {
         t.end();
     });
 });
-

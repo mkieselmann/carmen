@@ -7,7 +7,6 @@ const fs = require('fs');
 const crypto = require('crypto');
 const Handlebars = require('handlebars');
 
-const fuzzy = require('@mapbox/node-fuzzy-phrase');
 const carmenCore = require('@mapbox/carmen-core');
 const bbox = require('./lib/util/bbox');
 const constants = require('./lib/constants');
@@ -352,13 +351,13 @@ function Geocoder(indexes, options) {
                     // write case: we'll be creating a FuzzyPhraseSetBuilder and storing it in _fuzzyset.writer
                     source._fuzzyset = {
                         reader: null,
-                        writer: new fuzzy.FuzzyPhraseSetBuilder(fuzzySetFile)
+                        writer: new carmenCore.FuzzyPhraseSetBuilder(fuzzySetFile)
                     };
                     source._fuzzyset.writer.loadWordReplacements(source.categorized_replacement_words.simple);
                 } else {
                     // read case: we'll be creating a FuzzyPhraseSet and storing it in _fuzzyset.reader
                     source._fuzzyset = {
-                        reader: new fuzzy.FuzzyPhraseSet(fuzzySetFile),
+                        reader: new carmenCore.FuzzyPhraseSet(fuzzySetFile),
                         writer: null
                     };
                 }

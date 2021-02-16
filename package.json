@@ -6,16 +6,15 @@
   "author": "Mapbox (https://www.mapbox.com)",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "@mapbox/carmen-core": "0.2.0",
+    "@mapbox/carmen-core": "github:mapbox/carmen-core#eb76bf6596a3026b19a6f54e7cb77bd22d9b7025",
     "@mapbox/geojsonhint": "^2.0.1",
     "@mapbox/locking": "^3.0.0",
-    "@mapbox/mbtiles": "^0.10.0",
-    "@mapbox/node-fuzzy-phrase": "0.3.0",
+    "@mapbox/mbtiles": "^0.12.1",
     "@mapbox/sphericalmercator": "^1.1.0",
     "@mapbox/tile-cover": "^3.0.2",
     "@mapbox/tilebelt": "1.0.x",
     "@mapbox/tilelive": "^6.0.0",
-    "@mapbox/vtquery": "^0.5.0",
+    "@mapbox/vtquery": "github:mapbox/vtquery#fd0d0df1321cd36a9ad020a607eebe8471862412",
     "@turf/bbox": "^6.0.1",
     "@turf/bbox-clip": "^6.0.3",
     "@turf/bearing": "^6.0.1",
@@ -36,10 +35,10 @@
     "handlebars-helpers": "^0.10.0",
     "iter-tools": "^6.1.6",
     "leven": "^3.1.0",
-    "mapnik": "^4.0.2",
+    "mapnik": "^4.5.5",
     "minimist": "1.2.0",
     "model-un": "0.0.3",
-    "murmurhash-native": "^3.4.1",
+    "murmurhash-native": "^3.5.0",
     "split": "^1.0.1",
     "yarn": "^1.7.0"
   },
@@ -70,7 +69,7 @@
     "build-docs": " $(yarn bin)/documentation build --config docs/documentation.yml --access public --github --format md --output docs/api.md index.js lib/**"
   },
   "engines": {
-    "node": "10.x"
+    "node": "14.x"
   },
   "repository": {
     "type": "git",
