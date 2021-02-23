@@ -113,33 +113,29 @@ tape('add address', (t) => {
 tape('invalid', (t) => {
     c.geocode('0,0', { reverseMode: 'foo' }, (err, res) => {
         t.deepEqual(err && err.toString(), 'Error: foo is not a valid reverseMode. Must be one of: score, distance');
+        t.end();
     });
-
-    t.end();
 });
 
 tape('reverse distance threshold - close enough', (t) => {
     c.geocode('0.106,-0.106', {}, (err, res) => {
         t.deepEqual(res.features.length, 1, 'finds a feature when coords are off by .006');
+        t.end();
     });
-
-    t.end();
 });
 
 tape('reverse distance threshold - too far', (t) => {
     c.geocode('0.107,-0.107', {}, (err, res) => {
         t.deepEqual(res.features.length, 0, 'does not find a feature when coords are off by .007');
+        t.end();
     });
-
-    t.end();
 });
 
 tape('get the higher-scored, more distant feature first', (t) => {
     c.geocode('1.007, 1.007', { reverseMode: 'score' }, (err, res) => {
         t.deepEqual(res.features[0].id, 'poi.3', 'higher-scored feature comes back first');
+        t.end();
     });
-
-    t.end();
 });
 
 tape('teardown', (t) => {
