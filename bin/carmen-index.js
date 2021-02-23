@@ -96,6 +96,7 @@ function index(err) {
     carmen.on('open', () => {
         carmen.index(process.stdin, conf.to, config, (err) => {
             if (err) throw err;
+            process.exit(0);
         });
     });
 }
