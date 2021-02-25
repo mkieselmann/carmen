@@ -1212,9 +1212,10 @@
   resolved "https://registry.yarnpkg.com/@mapbox/tiletype/-/tiletype-0.3.1.tgz#1a1498f6a1b777630e0b4d3a2fed9d94959560cc"
   integrity sha1-GhSY9qG3d2MOC006L+2dlJWVYMw=
 
-"@mapbox/vtquery@github:mapbox/vtquery#fd0d0df1321cd36a9ad020a607eebe8471862412":
-  version "0.5.0-node14"
-  resolved "https://codeload.github.com/mapbox/vtquery/tar.gz/fd0d0df1321cd36a9ad020a607eebe8471862412"
+"@mapbox/vtquery@0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@mapbox/vtquery/-/vtquery-0.5.1.tgz#a88fc788f1038049b5e6f3c4362b95ceaab83da0"
+  integrity sha512-iPEDke7qN+MALb4vGL6FVrr/NqU4DBKNOoV8HDrUMlSeMPo8bXAq8r1FJgqfhgwzpSbjBFJiBgAL/Bly+LUiOA==
   dependencies:
     "@mapbox/mason-js" "^0.1.5"
     nan "^2.14.0"
