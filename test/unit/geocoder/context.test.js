@@ -512,11 +512,12 @@ test('contextVector near miss polygons', (t) => {
         context.contextVector(source, 39, 39, false, {}, null, false, false, undefined, (err, data) => {
             t.ifError(err);
             t.equal(data['properties']['carmen:text'], 'A');
-        });
-        context.contextVector(source, 40.0001, 40.0001, false, {}, null, false, false, undefined, (err, data) => {
-            t.ifError(err);
-            t.equal(data, false);
-            t.end();
+
+            context.contextVector(source, 40.0001, 40.0001, false, {}, null, false, false, undefined, (err, data) => {
+                t.ifError(err);
+                t.equal(data, false);
+                t.end();
+            });
         });
     });
 });

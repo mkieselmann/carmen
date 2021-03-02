@@ -291,7 +291,7 @@ tape('indexdocs.standardize', (t) => {
 
         q.deepEqual(res.properties['carmen:zxy'].length, 10000, 'truncates carmen:zxy to 10000');
         central.forEach((cover) => {
-            t.deepEqual(res.properties['carmen:zxy'].filter((zxy) => { return zxy === cover; }).length, 100, 'sort preserves covers closest to center: ' + cover);
+            q.deepEqual(res.properties['carmen:zxy'].filter((zxy) => { return zxy === cover; }).length, 100, 'sort preserves covers closest to center: ' + cover);
         });
         q.end();
     });

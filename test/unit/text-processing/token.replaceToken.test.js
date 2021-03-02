@@ -225,7 +225,6 @@ test('replaceTokens - complex', (t) => {
         owner: [0 , 1, 2, 2],
         lastWord: true
     });
-    t.end();
 
     const replacer = token.createComplexReplacer([
         {
@@ -264,6 +263,8 @@ test('replaceTokens - complex', (t) => {
         owner: [0, 1, 2, 2, 4, 4],
         lastWord: true
     }, 'Strips tokens');
+
+    t.end();
 });
 
 test('replaceTokens - complex, numeric replacement groups', (t) => {
