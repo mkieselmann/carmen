@@ -1,5 +1,9 @@
 # Changelog
 
+## 34.0.0
+
+- Add support for Node 14, and drop support for all previous Node versions.
+
 ## 33.3.2
 
 - Fix an issue with overly aggressive deduplication of ghost features.
