@@ -64,7 +64,7 @@
   "scripts": {
     "lint": "eslint index.js lib test bin",
     "test": "yarn run lint && (retire -n || echo 'WARNING: retire found insecure packages') && TESTING=true tape './test/**/*.js' && yarn run bench",
-    "coverage": "TESTING=true nyc tape 'test/**/*.js' && nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "coverage": "TESTING=true tape test/bin.test.js && nyc tape 'test/**/*.js' && nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "bench": "./test/run_all_benchmarks.sh",
     "build-docs": " $(yarn bin)/documentation build --config docs/documentation.yml --access public --github --format md --output docs/api.md index.js lib/**"
   },
