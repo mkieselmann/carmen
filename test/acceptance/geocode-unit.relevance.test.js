@@ -98,7 +98,11 @@ tape('Check relevance scoring', (t) => {
     c.geocode('11027 S. Pikes Peak Drive #201', { limit_verify: 1 }, (err, res) => {
         t.ifError(err);
         t.equal(res.features[0].relevance, 0.648148, 'Apt. number lowers relevance');
+        t.end();
     });
+});
+
+tape('Check relevance scoring #2', (t) => {
     c.geocode('11027 S. Pikes Peak Drive', { limit_verify: 1 }, (err, res) => {
         t.ifError(err);
         t.equal(res.features[0].relevance, 1.00, 'High relevance with no apartment number');
