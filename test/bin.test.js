@@ -116,6 +116,11 @@ tape('bin/carmen-index', (t) => {
 });
 
 tape('bin/carmen-index', (t) => {
+    if (process.env.NYC_CWD) {
+        // there's a bug in nyc/istanbul that causes this test to crash, so skip it
+        // (we'll run it outside the coverage runner)
+        return t.end();
+    }
     exec(bin + '/carmen-index.js --config="' + __dirname + '/fixtures/index-bin-config.json" --tokens="' + __dirname + '/fixtures/tokens.js" --index="' + tmpindex3 + '" < ./test/fixtures/small-docs.jsonl', (err, stdout, stderr) => {
         t.ifError(err);
         t.end();
