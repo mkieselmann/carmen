@@ -1,5 +1,9 @@
 # Changelog
 
+## 34.0.2
+
+- Fix a bug where a string is passed GridStore instead of a number when indexing.
+ 
 ## 34.0.1
 
 - Fix a bug introduced in 34.0.0 that caused some features to occasionally be dropped from MBTiles files during indexing.
