@@ -51,8 +51,13 @@ if (argv.version) {
 if (!argv.query) throw new Error('--query argument required');
 
 let opts = {};
+let carmenConfig = {};
 if (argv.config) {
     opts = require(path.resolve(argv.config));
+    if (opts.config) {
+        carmenConfig = opts.config;
+        delete opts.config;
+    }
 } else if (argv._.length > 2) { // Given Tile Source
     const src = path.resolve(argv._[argv._.length - 1]);
     const stat = fs.statSync(src);
@@ -65,16 +70,14 @@ if (argv.config) {
     opts = Carmen.autodir(path.resolve(__dirname + '/../tiles'));
 }
 
-let tokens = {};
+if (!carmenConfig.tokens) carmenConfig.tokens = {};
 if (argv.tokens) {
-    tokens = require(path.resolve(argv.tokens));
+    carmenConfig.tokens = require(path.resolve(argv.tokens));
 
-    if (typeof tokens === 'function') tokens = tokens();
+    if (typeof carmenConfig.tokens === 'function') carmenConfig.tokens = carmenConfig.tokens();
 }
 
-const carmen = new Carmen(opts, {
-    tokens: tokens
-});
+const carmen = new Carmen(opts, carmenConfig);
 
 if (argv.proximity) {
     if (argv.proximity.indexOf(',') === -1)
