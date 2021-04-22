@@ -1,5 +1,9 @@
 # Changelog
 
+## 34.0.3
+
+- Move mapnik to devDependencies, and remove other unused dependencies.
+
 ## 34.0.2
 
 - Fix a bug where a string is passed GridStore instead of a number when indexing.
