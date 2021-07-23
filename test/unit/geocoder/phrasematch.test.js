@@ -693,22 +693,22 @@ tape('stackBounds', (t) => {
     c.geocoder_stack = ['at', 'ch'];
 
     t.plan(8);
-    phrasematch(c, termops.tokenize('query'), { stacks: ['at', 'ch'] }, (err, results, source) => {
+    phrasematch(c, termops.tokenize('main'), { stacks: ['at', 'ch'] }, (err, results, source) => {
         t.deepEquals(results[0].bounds, [5.955907, 45.817981, 17.158411, 49.020374]);
         t.error(err);
     });
 
-    phrasematch(c, termops.tokenize('query'), { stacks: ['at'] }, (err, results, source) => {
+    phrasematch(c, termops.tokenize('main'), { stacks: ['at'] }, (err, results, source) => {
         t.deepEquals(results[0].bounds, [9.530734, 46.372056, 17.158411, 49.020374]);
         t.error(err);
     });
 
-    phrasematch(c, termops.tokenize('query'), { stacks: ['ch', 'zz'] }, (err, results, source) => {
+    phrasematch(c, termops.tokenize('main'), { stacks: ['ch', 'zz'] }, (err, results, source) => {
         t.deepEquals(results[0].bounds, [5.955907, 45.817981, 10.492063, 47.808454]);
         t.error(err);
     });
 
-    phrasematch(c, termops.tokenize('query'), { stacks: ['aa', 'zz'] }, (err, results, source) => {
+    phrasematch(c, termops.tokenize('main'), { stacks: ['aa', 'zz'] }, (err, results, source) => {
         t.deepEquals(results[0].bounds, undefined);
         t.error(err);
     });
