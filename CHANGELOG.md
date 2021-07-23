@@ -1,5 +1,9 @@
 # Changelog
 
+## 34.1.0
+
+- Add support for `geocoder_stack_bounds` parameter to limit results to a stack's bounds during coalesce.
+
 ## 34.0.3
 
 - Move mapnik to devDependencies, and remove other unused dependencies.
