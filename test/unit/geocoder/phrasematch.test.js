@@ -682,7 +682,7 @@ tape('stackBounds', (t) => {
     const c = fakeCarmen({
         fuzzyMatchWindows: (a, b, c, d) => {
             return [
-                { start_position: 0, phrase: ['query'], edit_distance: 0, ending_type: 0, phrase_id_range: [0, 0] }
+                { start_position: 0, phrase: ['main'], edit_distance: 0, ending_type: 0, phrase_id_range: [0, 0] }
             ];
         }
     });
