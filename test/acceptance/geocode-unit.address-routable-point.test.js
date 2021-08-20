@@ -452,17 +452,12 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
                 'carmen:center': [0,0], // not used
                 'carmen:addressnumber': [null, ['9','11','13']],
                 'carmen:types': ['address'],
-                'carmen:routable_points': [
-                    2.111,
-                    2.11
-                ],
                 'carmen:addressprops': {
                     'carmen:routable_points': {
                         '1': [
                             3.111,
                             3.11
-                        ],
-                        '2': null
+                        ]
                     }
                 }
             },
@@ -495,7 +490,7 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
             t.ifError(err);
             t.deepEquals(res.features[0].routable_points,
                 {
-                    points: [{ coordinates: [2.111, 2.11] }]
+                    points: [{ coordinates: [1.111, 1.11] }]
                 },
                 'Reverse geocode with routing override'
             );
