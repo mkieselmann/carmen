@@ -519,7 +519,7 @@ const routablePoints = require('../../../lib/geocoder/routablepoint.js');
             'id': 6666777777982370,
             'carmen:types': ['poi'],
             'carmen:index': 'poi',
-            'carmen:routable_points': [-122.213550, 37.712913]
+            'carmen:routable_points': [{ coordinates: [-122.213550, 37.712913] }]
         },
         geometry: {
             type: 'Point',
@@ -533,7 +533,7 @@ const routablePoints = require('../../../lib/geocoder/routablepoint.js');
         assert.deepEquals(
             routablePoints([-122, 37], featureroutablePoints, carmenOverride),
             {
-                points: [{ coordinates: featureroutablePoints.properties['carmen:routable_points'] }]
+                points: featureroutablePoints.properties['carmen:routable_points']
             },
             'features that already have routable_points should return existing routable points'
         );

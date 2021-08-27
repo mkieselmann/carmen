@@ -89,16 +89,10 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
                 'carmen:center': [0,0], // not used
                 'carmen:addressnumber': [null, ['9','11','13']],
                 'carmen:types': ['address'],
-                'carmen:routable_points': [
-                    2.111,
-                    2.11
-                ],
+                'carmen:routable_points': [{ 'coordinates':[2.111, 2.11] }],
                 'carmen:addressprops': {
                     'carmen:routable_points': {
-                        '1': [
-                            3.111,
-                            3.11
-                        ],
+                        '1':[{ 'coordinates':[3.111, 3.11] }],
                         '2': null
                     }
                 }
@@ -454,10 +448,12 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
                 'carmen:types': ['address'],
                 'carmen:addressprops': {
                     'carmen:routable_points': {
-                        '1': [
-                            3.111,
-                            3.11
-                        ]
+                        '1': [{
+                            'coordinates':[
+                                3.111,
+                                3.11
+                            ]
+                        }]
                     }
                 }
             },
