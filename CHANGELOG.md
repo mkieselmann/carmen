@@ -2,7 +2,7 @@
 
 ## 34.1.1
 
-- Add support for `carmen:routable_points` override to allow routable point correction.
+- Add support for `carmen:routable_points` override to allow routable point corrections.
 
 ## 34.1.0
 
