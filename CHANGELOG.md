@@ -1,5 +1,9 @@
 # Changelog
 
+## 34.1.1
+
+- Add support for `carmen:routable_points` override to allow routable point corrections.
+
 ## 34.1.0
 
 - Add support for `geocoder_stack_bounds` parameter to limit results to a stack's bounds during coalesce.

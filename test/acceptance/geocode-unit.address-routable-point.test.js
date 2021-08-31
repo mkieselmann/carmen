@@ -75,6 +75,95 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
 })();
 
 
+// Test non-interpolated address routable_points with override
+(() => {
+    const conf = {
+        address: new mem({ maxzoom: 6,  geocoder_address:1, geocoder_routable:1, geocoder_format: '{{address.number}} {{address.name}} {{place.name}}, {{region.name}} {{postcode.name}}, {{country.name}}' }, () => {}),
+    };
+    const c = new Carmen(conf);
+    tape('index address', (t) => {
+        const address = {
+            id:1,
+            properties: {
+                'carmen:text': 'fake street',
+                'carmen:center': [0,0], // not used
+                'carmen:addressnumber': [null, ['9','11','13']],
+                'carmen:types': ['address'],
+                'carmen:routable_points': [{ 'coordinates':[2.111, 2.11] }],
+                'carmen:addressprops': {
+                    'carmen:routable_points': {
+                        '1':[{ 'coordinates':[3.111, 3.11] }],
+                        '2': null
+                    }
+                }
+            },
+            geometry: {
+                type: 'GeometryCollection',
+                geometries: [
+                    {
+                        type: 'MultiLineString',
+                        coordinates: [
+                            [
+                                [1.111, 1.11],
+                                [1.112, 1.11],
+                                [1.114, 1.11],
+                                [1.115, 1.11]
+                            ]
+                        ]
+                    },
+                    {
+                        type: 'MultiPoint',
+                        coordinates: [[1.111, 1.111], [1.113, 1.111], [1.115, 1.111]]
+                    }
+                ]
+            }
+        };
+        queueFeature(conf.address, address, () => { buildQueued(conf.address, t.end); });
+    });
+
+    tape('Forward search for non-interpolated address with override and return routable points', (t) => {
+        c.geocode('9 fake street', { debug: true, routing: true }, (err, res) => {
+            t.ifError(err);
+            t.deepEquals(res.features[0].routable_points,
+                {
+                    points: [{ coordinates: [2.111, 2.11] }]
+                },
+                'Forward geocode of non-interpolated address result has correct routable_point');
+            t.end();
+        });
+    });
+
+    tape('Geocode for non-interpolated address with in-cluster routable points override', (t) => {
+        c.geocode('11 fake street', { debug: true, routing: true }, (err, res) => {
+            t.ifError(err);
+            t.deepEquals(res.features[0].routable_points,
+                {
+                    points: [{ coordinates: [3.111, 3.11] }]
+                },
+                'Forward geocode of non-interpolated address result has correct routable_point');
+            t.end();
+        });
+    });
+
+    tape('Geocode for non-interpolated address with no routable points override', (t) => {
+        c.geocode('13 fake street', { debug: true, routing: true }, (err, res) => {
+            t.ifError(err);
+            t.deepEquals(res.features[0].routable_points,
+                {
+                    points: [{ coordinates: [1.115, 1.11] }]
+                },
+                'Forward geocode of non-interpolated address result has correct routable_point');
+            t.end();
+        });
+    });
+
+    tape('teardown', (t) => {
+        context.getTile.cache.reset();
+        t.end();
+    });
+})();
+
+
 // Test interpolated address
 (() => {
     const conf = {
@@ -342,6 +431,99 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
         t.end();
     });
 })();
+
+// Test reverse geocoding routable_points with override
+(() => {
+    const conf = {
+        address: new mem({ maxzoom: 6,  geocoder_address:1, geocoder_routable:1, geocoder_format: '{{address.number}} {{address.name}} {{place.name}}, {{region.name}} {{postcode.name}}, {{country.name}}' }, () => {}),
+    };
+    const c = new Carmen(conf);
+    tape('index address', (t) => {
+        const address = {
+            id:1,
+            properties: {
+                'carmen:text': 'fake street',
+                'carmen:center': [0,0], // not used
+                'carmen:addressnumber': [null, ['9','11','13']],
+                'carmen:types': ['address'],
+                'carmen:addressprops': {
+                    'carmen:routable_points': {
+                        '1': [{
+                            'coordinates':[
+                                3.111,
+                                3.11
+                            ]
+                        }]
+                    }
+                }
+            },
+            geometry: {
+                type: 'GeometryCollection',
+                geometries: [
+                    {
+                        type: 'MultiLineString',
+                        coordinates: [
+                            [
+                                [1.111, 1.11],
+                                [1.112, 1.11],
+                                [1.114, 1.11],
+                                [1.115, 1.11]
+                            ]
+                        ]
+                    },
+                    {
+                        type: 'MultiPoint',
+                        coordinates: [[1.111, 1.111], [1.113, 1.111], [1.115, 1.111]]
+                    }
+                ]
+            }
+        };
+        queueFeature(conf.address, address, () => { buildQueued(conf.address, t.end); });
+    });
+
+    tape('Reverse geocode with routing', (t) => {
+        c.geocode('1.111, 1.111', { routing: true }, (err, res) => {
+            t.ifError(err);
+            t.deepEquals(res.features[0].routable_points,
+                {
+                    points: [{ coordinates: [1.111, 1.11] }]
+                },
+                'Reverse geocode with routing override'
+            );
+            t.end();
+        });
+    });
+    tape('Reverse geocode without routing', (t) => {
+        c.geocode('1.113, 1.111', { routing: true }, (err, res) => {
+            t.ifError(err);
+            t.deepEquals(res.features[0].routable_points,
+                {
+                    points: [{ coordinates: [3.111, 3.11] }]
+                },
+                'Reverse geocode with routing in-cluster override'
+            );
+            t.end();
+        });
+    });
+    tape('Reverse geocode without routing', (t) => {
+        c.geocode('1.115, 1.111', { routing: true }, (err, res) => {
+            t.ifError(err);
+            t.deepEquals(res.features[0].routable_points,
+                {
+                    points: [{ coordinates: [1.115, 1.11] }]
+                },
+                'Reverse geocode with routing without override'
+            );
+            t.end();
+        });
+    });
+
+    tape('teardown', (t) => {
+        context.getTile.cache.reset();
+        t.end();
+    });
+})();
+
 
 // Test where limit is > 1, all address features should have routable_points
 (() => {
