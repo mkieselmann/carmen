@@ -1,5 +1,9 @@
 # Changelog
 
+## 34.1.2
+
+- Overrides proximity scaleRadius based on type, for more local types `neighborhood` and `locality`.
+
 ## 34.1.1
 
 - Add support for `carmen:routable_points` override to allow routable point corrections.

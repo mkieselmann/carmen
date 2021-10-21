@@ -8,6 +8,8 @@ const maxScore = 1634443;
 const ZOOM_LEVELS = {
     address: 14,
     poi: 14,
+    neighborhood: 12,
+    locality: 12,
     place: 12,
     region: 6,
     district: 9,
@@ -27,7 +29,8 @@ function calculateScoreDist(input) {
             maxScore,
             feat.properties['carmen:distance'],
             feat.properties['carmen:zoom'],
-            feat.properties['carmen:proximity_radius']
+            feat.properties['carmen:proximity_radius'],
+            feat.properties['carmen:types'] ? feat.properties['carmen:types'][0] : null
         ).toFixed(6));
     }
 }
@@ -166,6 +169,23 @@ test('scoredist', (t) => {
         t.end();
     });
 
+    t.test('oakland near oakland neighborhood, MD', (t) => {
+        // --query="Oakland" --proximity="-76.83984375000489,36.043528125844574"
+        const input = [
+            { properties: { 'carmen:text': 'Oakland, District Heights, Maryland 20747, United States', 'carmen:distance': 262.6196672182887, 'carmen:score': 23, 'carmen:zoom': ZOOM_LEVELS.neighborhood, 'carmen:types': ['neighborhood']  } },
+            { properties: { 'carmen:text': 'Oakland, California, United States', 'carmen:distance': 2487.507511918706, 'carmen:score': 2190, 'carmen:zoom': ZOOM_LEVELS.place, 'carmen:types': ['place'] } },
+        ];
+
+        const expected = [
+            { properties: { 'carmen:text': 'Oakland, California, United States', 'carmen:distance': 2487.507511918706, 'carmen:score': 2190, 'carmen:zoom': ZOOM_LEVELS.place, 'carmen:types': ['place'], 'carmen:scoredist': 1.668918 } },
+            { properties: { 'carmen:text': 'Oakland, District Heights, Maryland 20747, United States', 'carmen:distance': 262.6196672182887, 'carmen:score': 23, 'carmen:zoom': ZOOM_LEVELS.neighborhood, 'carmen:types': ['neighborhood'], 'carmen:scoredist': 1.007327 } }
+        ];
+
+        calculateScoreDist(input);
+        t.deepEqual(input.sort(compareScoreDist), expected);
+        t.end();
+    });
+
     t.test('united states near washington dc', (t) => {
         // --query="United States" --proximity="-77.03361679999999,38.900039899999996"
         const input = [
@@ -186,26 +206,26 @@ test('scoredist', (t) => {
     t.test('missi near mission neighborhood san francisco', (t) => {
         // --query="missi" --proximity="-122.4213562,37.75234222"
         const input = [
-            { id: 15, properties: { 'carmen:text': 'Mission District', 'carmen:distance': 0.641155642372423, 'carmen:score': -1, 'carmen:zoom': ZOOM_LEVELS.neighborhood } },
+            { id: 14, properties: { 'carmen:text': 'Mission District', 'carmen:distance': 0.641155642372423, 'carmen:score': -1, 'carmen:zoom': ZOOM_LEVELS.neighborhood } },
             { id: 2, properties: { 'carmen:text': 'Mission Terrace', 'carmen:distance': 2.0543295828567985, 'carmen:score': 50, 'carmen:zoom': ZOOM_LEVELS.neighborhood } },
             { id: 1, properties: { 'carmen:text': 'Mission', 'carmen:distance': 0.5365405586195869, 'carmen:score': 609, 'carmen:zoom': ZOOM_LEVELS.neighborhood } },
             { id: 3, properties: { 'carmen:text': 'Mission Bay', 'carmen:distance': 2.083206525530076, 'carmen:score': 46, 'carmen:zoom': ZOOM_LEVELS.neighborhood } },
-            { id: 16, properties: { 'carmen:text': 'Mission Dolores', 'carmen:distance': 0.8734705397622807, 'carmen:score': -1, 'carmen:zoom': ZOOM_LEVELS.neighborhood } },
-            { id: 7, properties: { 'carmen:text': 'Mission Branch Library', 'carmen:distance': 0.09171422623336412, 'carmen:score': 0, 'carmen:zoom': ZOOM_LEVELS.poi } },
-            { id: 11, properties: { 'carmen:text': 'Mission Tires & Service Center', 'carmen:distance': 0.41252770420569307, 'carmen:score': 0, 'carmen:zoom': ZOOM_LEVELS.poi } },
-            { id: 12, properties: { 'carmen:text': 'Mission Dental Care', 'carmen:distance': 0.47809299593103194, 'carmen:score': 0, 'carmen:zoom': ZOOM_LEVELS.poi } },
-            { id: 4, properties: { 'carmen:text': 'Mission Pie,cafe, coffee, tea, tea house', 'carmen:distance': 0.20888191032358838, 'carmen:score': 3, 'carmen:zoom': ZOOM_LEVELS.poi } },
-            { id: 5, properties: { 'carmen:text': 'Mission\'s Kitchen,fast food', 'carmen:distance': 0.1618230166173522, 'carmen:score': 1, 'carmen:zoom': ZOOM_LEVELS.poi } },
-            { id: 10, properties: { 'carmen:text': 'Mission Gastroclub', 'carmen:distance': 0.3514533005726089, 'carmen:score': 0, 'carmen:zoom': ZOOM_LEVELS.poi } },
-            { id: 17, properties: { 'carmen:text': 'Mission Skateboards', 'carmen:distance': 1.4633504101693179, 'carmen:score': 0, 'carmen:zoom': ZOOM_LEVELS.poi } },
-            { id: 6, properties: { 'carmen:text': 'Mission Cultural Center for Latino Arts,college, university', 'carmen:distance': 0.18621060494099984, 'carmen:score': 1, 'carmen:zoom': ZOOM_LEVELS.poi } },
-            { id: 9, properties: { 'carmen:text': 'Mission Critter', 'carmen:distance': 0.24892887064676822, 'carmen:score': 0, 'carmen:zoom': ZOOM_LEVELS.poi } },
-            { id: 8, properties: { 'carmen:text': 'Mission Wishing Tree', 'carmen:distance': 0.10633212084221495, 'carmen:score': 0, 'carmen:zoom': ZOOM_LEVELS.poi } },
+            { id: 15, properties: { 'carmen:text': 'Mission Dolores', 'carmen:distance': 0.8734705397622807, 'carmen:score': -1, 'carmen:zoom': ZOOM_LEVELS.neighborhood } },
+            { id: 8, properties: { 'carmen:text': 'Mission Branch Library', 'carmen:distance': 0.09171422623336412, 'carmen:score': 0, 'carmen:zoom': ZOOM_LEVELS.poi } },
+            { id: 12, properties: { 'carmen:text': 'Mission Tires & Service Center', 'carmen:distance': 0.41252770420569307, 'carmen:score': 0, 'carmen:zoom': ZOOM_LEVELS.poi } },
+            { id: 13, properties: { 'carmen:text': 'Mission Dental Care', 'carmen:distance': 0.47809299593103194, 'carmen:score': 0, 'carmen:zoom': ZOOM_LEVELS.poi } },
+            { id: 5, properties: { 'carmen:text': 'Mission Pie,cafe, coffee, tea, tea house', 'carmen:distance': 0.20888191032358838, 'carmen:score': 3, 'carmen:zoom': ZOOM_LEVELS.poi } },
+            { id: 6, properties: { 'carmen:text': 'Mission\'s Kitchen,fast food', 'carmen:distance': 0.1618230166173522, 'carmen:score': 1, 'carmen:zoom': ZOOM_LEVELS.poi } },
+            { id: 11, properties: { 'carmen:text': 'Mission Gastroclub', 'carmen:distance': 0.3514533005726089, 'carmen:score': 0, 'carmen:zoom': ZOOM_LEVELS.poi } },
+            { id: 18, properties: { 'carmen:text': 'Mission Skateboards', 'carmen:distance': 1.4633504101693179, 'carmen:score': 0, 'carmen:zoom': ZOOM_LEVELS.poi } },
+            { id: 7, properties: { 'carmen:text': 'Mission Cultural Center for Latino Arts,college, university', 'carmen:distance': 0.18621060494099984, 'carmen:score': 1, 'carmen:zoom': ZOOM_LEVELS.poi } },
+            { id: 10, properties: { 'carmen:text': 'Mission Critter', 'carmen:distance': 0.24892887064676822, 'carmen:score': 0, 'carmen:zoom': ZOOM_LEVELS.poi } },
+            { id: 9, properties: { 'carmen:text': 'Mission Wishing Tree', 'carmen:distance': 0.10633212084221495, 'carmen:score': 0, 'carmen:zoom': ZOOM_LEVELS.poi } },
             { id: 20, properties: { 'carmen:text': 'Mississippi', 'carmen:distance': 1873.3273481255542, 'carmen:score': 17955, 'carmen:zoom': ZOOM_LEVELS.region } },
-            { id: 18, properties: { 'carmen:text': 'Mission Bay Mobile Home Park', 'carmen:distance': 15.112097493445267, 'carmen:score': 0, 'carmen:zoom': ZOOM_LEVELS.neighborhood } },
-            { id: 19, properties: { 'carmen:text': 'Mission-Foothill', 'carmen:distance': 19.97574371302543, 'carmen:score': 44, 'carmen:zoom': ZOOM_LEVELS.neighborhood } },
-            { id: 13, properties: { 'carmen:text': 'Mission Workshop,bicycle, bike, cycle', 'carmen:distance': 0.821663496329208, 'carmen:score': 1, 'carmen:zoom': ZOOM_LEVELS.poi } },
-            { id: 14, properties: { 'carmen:text': 'Mission Pet Hospital', 'carmen:distance': 0.6281933184839765, 'carmen:score': 0, 'carmen:zoom': ZOOM_LEVELS.poi } },
+            { id: 19, properties: { 'carmen:text': 'Mission Bay Mobile Home Park', 'carmen:distance': 15.112097493445267, 'carmen:score': 0, 'carmen:zoom': ZOOM_LEVELS.neighborhood } },
+            { id: 4, properties: { 'carmen:text': 'Mission-Foothill', 'carmen:distance': 19.97574371302543, 'carmen:score': 44, 'carmen:zoom': ZOOM_LEVELS.neighborhood } },
+            { id: 16, properties: { 'carmen:text': 'Mission Workshop,bicycle, bike, cycle', 'carmen:distance': 0.821663496329208, 'carmen:score': 1, 'carmen:zoom': ZOOM_LEVELS.poi } },
+            { id: 17, properties: { 'carmen:text': 'Mission Pet Hospital', 'carmen:distance': 0.6281933184839765, 'carmen:score': 0, 'carmen:zoom': ZOOM_LEVELS.poi } },
         ];
 
         calculateScoreDist(input);
@@ -253,6 +273,7 @@ test('distWeight', (t) => {
     t.equal(parseFloat(proximity.distWeight(400, 14).toFixed(4)), 1, 'dist 4x > scaleRadius => distWeight ~1');
     t.equal(parseFloat(proximity.distWeight(100, 14).toFixed(4)), 1.0001, 'dist = scaleRadius => distWeight ~1.0001');
     t.equal(proximity.distWeight(25, 14).toFixed(4), '5.5000', 'dist 1/4 scaleRadius => distWeight ~5.5');
+    t.equal(proximity.distWeight(25, 12, null, 'neighborhood').toFixed(4), '5.5000', 'distWeight accepts type for radius override');
     t.equal(proximity.distWeight(0, 14), 10, 'dist 0 => distWeight 10');
     t.end();
 });
@@ -261,6 +282,10 @@ test('scaleRadius', (t) => {
     t.equal(proximity.scaleRadius(6), 1800, 'zoom 6 radius 1800 miles');
     t.equal(proximity.scaleRadius(12), 600, 'zoom 12 radius 600 miles');
     t.equal(proximity.scaleRadius(14), 100, 'zoom 14 radius 100 miles');
+    t.equal(proximity.scaleRadius(12, 'neighborhood'), 100, 'neighborhood radius 100 miles');
+    t.equal(proximity.scaleRadius(12, 'locality'), 100, 'locality radius 100 miles');
+    t.equal(proximity.scaleRadius(12, 'place'), 600, 'place defaults to zoom 12 radius 600 miles');
+    t.equal(proximity.scaleRadius(14, 'address'), 100, 'address defaults to zoom 14 radius 100 miles');
     t.end();
 });
 
