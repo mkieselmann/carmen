@@ -1,5 +1,9 @@
 # Changelog
 
+## 34.1.3
+
+- Add support for up to 256 indexes, instead of a max of 128.
+
 ## 34.1.2
 
 - Overrides proximity scaleRadius based on type, for more local types `neighborhood` and `locality`.

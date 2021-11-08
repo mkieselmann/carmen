@@ -285,7 +285,7 @@
                 ],
                 "carmen:index": "place",
                 "carmen:extid": "place.1",
-                "carmen:tmpid": 67108865,
+                "carmen:tmpid": 33554433,
                 "carmen:vtquerydist": 0,
                 "carmen:geomtype": "Point",
                 "carmen:reverseMode": false
@@ -597,7 +597,7 @@
                 ],
                 "carmen:index": "region",
                 "carmen:extid": "region.1",
-                "carmen:tmpid": 33554433,
+                "carmen:tmpid": 16777217,
                 "carmen:vtquerydist": 0,
                 "carmen:geomtype": "Point",
                 "carmen:reverseMode": false
