@@ -157,7 +157,7 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
             t.end();
         });
     });
-    
+
     tape('Geocode for non-interpolated address with other routable points override', (t) => {
         c.geocode('15 fake street', { debug: true, routing: true }, (err, res) => {
             t.ifError(err);
@@ -462,7 +462,7 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
                 'carmen:addressprops': {
                     'carmen:routable_points': {
                         '1': [{
-                            'name': 'default_routable_point', 
+                            'name': 'default_routable_point',
                             'coordinates':[
                                 3.111,
                                 3.11
