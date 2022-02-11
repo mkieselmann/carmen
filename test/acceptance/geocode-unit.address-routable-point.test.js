@@ -218,7 +218,7 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
         c.geocode('150 Main Street', { routing: true, debug: true, full: true }, (err, res) => {
             t.ifError(err);
             t.deepEquals(res.features[0].routable_points.points,
-                [{ coordinates: res.features[0].geometry.coordinates }],
+                [{ 'name': 'default_routable_point', coordinates: res.features[0].geometry.coordinates }],
                 'Forward geocode of interpolated address result should return existing coordinates'
             );
             t.end();
