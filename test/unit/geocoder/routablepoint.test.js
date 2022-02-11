@@ -47,7 +47,7 @@ const routablePoints = require('../../../lib/geocoder/routablepoint.js');
         assert.deepEquals(
             routablePoints([1.113, 1.111], feature),
             {
-                points: [{ coordinates: [1.113, 1.11] }]
+                points: [{ name: 'default_routable_point', coordinates: [1.113, 1.11] }]
             },
             'Actual address point on feature with interpolation linestring should find routable points'
         );
@@ -64,7 +64,7 @@ const routablePoints = require('../../../lib/geocoder/routablepoint.js');
         assert.deepEquals(
             routablePoints([1.111, 1.11], feature),
             {
-                points: [{ coordinates: [1.111, 1.11] }]
+                points: [{ name: 'default_routable_point', coordinates: [1.111, 1.11] }]
             },
             'Point that is already on linestring should return itself'
         );
@@ -83,7 +83,7 @@ const routablePoints = require('../../../lib/geocoder/routablepoint.js');
         assert.deepEquals(
             routablePoints([1.113, 1.115], feature),
             {
-                points: [{ coordinates: [1.113, 1.11] }]
+                points: [{ name: 'default_routable_point', coordinates: [1.113, 1.11] }]
             },
             'Point in between linestring coords should return midpoint between coords on linestring'
         );
@@ -102,7 +102,7 @@ const routablePoints = require('../../../lib/geocoder/routablepoint.js');
         assert.deepEquals(
             routablePoints([1.115, 1.115], feature),
             {
-                points: [{ coordinates: [1.115, 1.11] }]
+                points: [{ name: 'default_routable_point', coordinates: [1.115, 1.11] }]
             },
             'Point not in the linestring should find routable point'
         );
@@ -157,7 +157,7 @@ const routablePoints = require('../../../lib/geocoder/routablepoint.js');
         assert.deepEquals(
             routablePoints([1.116, 1.113], feature),
             {
-                points: [{ coordinates: [1.1168, 1.1114] }]
+                points: [{ name: 'default_routable_point', coordinates: [1.1168, 1.1114] }]
             },
             'Point should be projected onto the diagonal linestring'
         );
@@ -213,7 +213,7 @@ const routablePoints = require('../../../lib/geocoder/routablepoint.js');
         assert.deepEquals(
             routablePoints([1.1115, 1.1115], feature),
             {
-                points: [{ coordinates: [1.111, 1.1115] }]
+                points: [{ name: 'default_routable_point', coordinates: [1.111, 1.1115] }]
             },
             'Point projected to left side of the cul de sac line'
         );
@@ -233,7 +233,7 @@ const routablePoints = require('../../../lib/geocoder/routablepoint.js');
         assert.deepEquals(
             routablePoints([1.1118, 1.1115], feature),
             {
-                points: [{ coordinates: [1.112, 1.1115] }]
+                points: [{ name: 'default_routable_point', coordinates: [1.112, 1.1115] }]
             },
             'point projected to the closer side of the cul de sac line'
         );
@@ -254,7 +254,7 @@ const routablePoints = require('../../../lib/geocoder/routablepoint.js');
         assert.deepEquals(
             routablePoints([1.1118, 1.1112], feature),
             {
-                points: [{ coordinates: [1.112, 1.1112] }]
+                points: [{ name: 'default_routable_point', coordinates: [1.112, 1.1112] }]
             },
             'point projected to the side of the cul de sac line it is closest to'
         );
@@ -424,21 +424,21 @@ const routablePoints = require('../../../lib/geocoder/routablepoint.js');
         assert.deepEqual(
             routablePoints(pointObject, featureLineString),
             {
-                points: [{ coordinates: [1, 1.11] }]
+                points: [{ name: 'default_routable_point', coordinates: [1, 1.11] }]
             },
             'Features with LineStrings, instead of MultiLineStrings, should also work'
         );
         assert.deepEquals(
             routablePoints(pointObject, featureSingleGeomLineString),
             {
-                points: [{ coordinates: [1, 1.11] }]
+                points: [{ name: 'default_routable_point', coordinates: [1, 1.11] }]
             },
             'Features with single geometry, instead of geometry collections, with LineString, should work'
         );
         assert.deepEquals(
             routablePoints(pointObject, featureSingleGeomMultiLineString),
             {
-                points: [{ coordinates: [1, 1.11] }]
+                points: [{ name: 'default_routable_point', coordinates: [1, 1.11] }]
             },
             'Features with single geometry, instead of geometry collections, with MultiLineString, should work'
         );
@@ -491,7 +491,7 @@ const routablePoints = require('../../../lib/geocoder/routablepoint.js');
         assert.deepEquals(
             routablePoints(pointInterpolated, feature),
             {
-                points: [{ coordinates: [-97.2, 37.3] }]
+                points: [{ name: 'default_routable_point', coordinates: [-97.2, 37.3] }]
             },
             'Interpolated point inputs should return routable_point response with original coordinates as points'
         );
@@ -519,7 +519,7 @@ const routablePoints = require('../../../lib/geocoder/routablepoint.js');
             'id': 6666777777982370,
             'carmen:types': ['poi'],
             'carmen:index': 'poi',
-            'carmen:routable_points': [{ coordinates: [-122.213550, 37.712913] }]
+            'carmen:routable_points': [{ name: 'default_routable_point', coordinates: [-122.213550, 37.712913] }]
         },
         geometry: {
             type: 'Point',
