@@ -1,5 +1,9 @@
 # Changelog
 
+## 34.1.4
+
+- Support multiple routable points.
+
 ## 34.1.3
 
 - Add support for up to 256 indexes, instead of a max of 128.

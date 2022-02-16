@@ -50,7 +50,7 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
             t.ifError(err);
             t.deepEquals(res.features[0].routable_points,
                 {
-                    points: [{ coordinates: [1.111, 1.11] }]
+                    points: [{ 'name': 'default_routable_point', coordinates: [1.111, 1.11] }]
                 },
                 'Forward geocode of non-interpolated address result has correct routable_point');
             t.end();
@@ -87,13 +87,14 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
             properties: {
                 'carmen:text': 'fake street',
                 'carmen:center': [0,0], // not used
-                'carmen:addressnumber': [null, ['9','11','13']],
+                'carmen:addressnumber': [null, ['9','11','13', '15']],
                 'carmen:types': ['address'],
-                'carmen:routable_points': [{ 'coordinates':[2.111, 2.11] }],
+                'carmen:routable_points': [{ 'name': 'default_routable_point', 'coordinates':[2.111, 2.11] }],
                 'carmen:addressprops': {
                     'carmen:routable_points': {
                         '1':[{ 'coordinates':[3.111, 3.11] }],
-                        '2': null
+                        '2': null,
+                        '3':[{ 'name': 'parking_lot', 'coordinates':[3.211, 3.11] }],
                     }
                 }
             },
@@ -107,13 +108,13 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
                                 [1.111, 1.11],
                                 [1.112, 1.11],
                                 [1.114, 1.11],
-                                [1.115, 1.11]
+                                [1.115, 1.11],
                             ]
                         ]
                     },
                     {
                         type: 'MultiPoint',
-                        coordinates: [[1.111, 1.111], [1.113, 1.111], [1.115, 1.111]]
+                        coordinates: [[1.111, 1.111], [1.113, 1.111], [1.115, 1.111], [1.115, 1.111]]
                     }
                 ]
             }
@@ -126,7 +127,7 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
             t.ifError(err);
             t.deepEquals(res.features[0].routable_points,
                 {
-                    points: [{ coordinates: [2.111, 2.11] }]
+                    points: [{ 'name': 'default_routable_point', coordinates: [2.111, 2.11] }]
                 },
                 'Forward geocode of non-interpolated address result has correct routable_point');
             t.end();
@@ -138,7 +139,7 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
             t.ifError(err);
             t.deepEquals(res.features[0].routable_points,
                 {
-                    points: [{ coordinates: [3.111, 3.11] }]
+                    points: [{ 'name': 'default_routable_point', coordinates: [3.111, 3.11] }]
                 },
                 'Forward geocode of non-interpolated address result has correct routable_point');
             t.end();
@@ -150,7 +151,19 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
             t.ifError(err);
             t.deepEquals(res.features[0].routable_points,
                 {
-                    points: [{ coordinates: [1.115, 1.11] }]
+                    points: [{ 'name': 'default_routable_point', coordinates: [1.115, 1.11] }]
+                },
+                'Forward geocode of non-interpolated address result has correct routable_point');
+            t.end();
+        });
+    });
+
+    tape('Geocode for non-interpolated address with other routable points override', (t) => {
+        c.geocode('15 fake street', { debug: true, routing: true }, (err, res) => {
+            t.ifError(err);
+            t.deepEquals(res.features[0].routable_points,
+                {
+                    points: [{ 'name': 'default_routable_point', coordinates: [1.115, 1.11] }, { 'name': 'parking_lot', 'coordinates':[3.211, 3.11] }]
                 },
                 'Forward geocode of non-interpolated address result has correct routable_point');
             t.end();
@@ -205,7 +218,7 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
         c.geocode('150 Main Street', { routing: true, debug: true, full: true }, (err, res) => {
             t.ifError(err);
             t.deepEquals(res.features[0].routable_points.points,
-                [{ coordinates: res.features[0].geometry.coordinates }],
+                [{ 'name': 'default_routable_point', coordinates: res.features[0].geometry.coordinates }],
                 'Forward geocode of interpolated address result should return existing coordinates'
             );
             t.end();
@@ -408,7 +421,7 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
             t.ifError(err);
             t.deepEquals(res.features[0].routable_points,
                 {
-                    points: [{ coordinates: [1.111, 1.11] }]
+                    points: [{ 'name': 'default_routable_point', coordinates: [1.111, 1.11] }]
                 },
                 'Reverse geocode with routing sets routable_points.points to false'
             );
@@ -449,11 +462,13 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
                 'carmen:addressprops': {
                     'carmen:routable_points': {
                         '1': [{
+                            'name': 'default_routable_point',
                             'coordinates':[
                                 3.111,
                                 3.11
                             ]
-                        }]
+                        }],
+                        '2': [{ 'name': 'parking_lot', coordinates: [4.115, 1.11] }, { 'name': 'default_routable_point', coordinates: [4.115, 1.11] }]
                     }
                 }
             },
@@ -486,7 +501,7 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
             t.ifError(err);
             t.deepEquals(res.features[0].routable_points,
                 {
-                    points: [{ coordinates: [1.111, 1.11] }]
+                    points: [{ 'name': 'default_routable_point', coordinates: [1.111, 1.11] }]
                 },
                 'Reverse geocode with routing override'
             );
@@ -498,7 +513,7 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
             t.ifError(err);
             t.deepEquals(res.features[0].routable_points,
                 {
-                    points: [{ coordinates: [3.111, 3.11] }]
+                    points: [{ 'name': 'default_routable_point', coordinates: [3.111, 3.11] }]
                 },
                 'Reverse geocode with routing in-cluster override'
             );
@@ -510,7 +525,7 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
             t.ifError(err);
             t.deepEquals(res.features[0].routable_points,
                 {
-                    points: [{ coordinates: [1.115, 1.11] }]
+                    points: [{ 'name': 'default_routable_point', coordinates: [4.115, 1.11] }, { 'name': 'parking_lot', coordinates: [4.115, 1.11] }]
                 },
                 'Reverse geocode with routing without override'
             );
@@ -607,12 +622,12 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
             t.ifError(err);
             t.deepEquals(
                 res.features[0].routable_points,
-                { points: [{ coordinates: [2.111, 2.11] }] },
+                { points: [{ 'name': 'default_routable_point', coordinates: [2.111, 2.11] }] },
                 'First address should have correct routable points'
             );
             t.deepEquals(
                 res.features[1].routable_points,
-                { points: [{ coordinates: [1.111, 1.11] }] },
+                { points: [{ 'name': 'default_routable_point', coordinates: [1.111, 1.11] }] },
                 'Second address should have correct routable points'
             );
             t.end();

@@ -101,7 +101,7 @@ can create clusters that follow this format.
     - As per above, the `geometry.coordinates` array must be parallel to, and equal in length with
       the `properties.addressnumber` array.
 - `properties.carmen:routable_points`
-    - OPTIONAL: a flat array of address routable point objects `[{ coordinates: [1.111, 1.11] }]`, one address will have at most one routable point object for now.
+    - OPTIONAL: a flat array of address routable point objects `[{ name: default_routable_point, coordinates: [1.111, 1.11] }, ...]`. The first object in the list will always be the default routable point. One address could have more than routable point objects, each has its own name and coordinates.
     - Routable points are calculated by default when routing flag is on. If a `properties.carmen:routable_points` is included in the address point, it will override the default routable point.
 
 ### Interpolation Lines
