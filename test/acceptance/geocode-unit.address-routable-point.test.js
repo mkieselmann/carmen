@@ -92,7 +92,7 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
                 'carmen:routable_points': [{ 'name': 'default_routable_point', 'coordinates':[2.111, 2.11] }],
                 'carmen:addressprops': {
                     'carmen:routable_points': {
-                        '1':[{'coordinates':[3.111, 3.11] }],
+                        '1':[{ 'coordinates':[3.111, 3.11] }],
                         '2': null,
                         '3':[{ 'name': 'parking_lot', 'coordinates':[3.211, 3.11] }],
                     }
