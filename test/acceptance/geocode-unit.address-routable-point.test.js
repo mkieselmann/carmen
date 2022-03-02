@@ -76,7 +76,8 @@ const { queueFeature, buildQueued } = require('../../lib/indexer/addfeature');
 
 
 // Test non-interpolated address routable_points with override
-// with improperly formatted routable point
+// with improperly formatted routable point as a dict instead of a list
+// ie. 'carmen:routable_points': { 'name': 'default_routable_point', 'coordinates':[2.111, 2.11] },
 (() => {
     const conf = {
         address: new mem({ maxzoom: 6,  geocoder_address:1, geocoder_routable:1, geocoder_format: '{{address.number}} {{address.name}} {{place.name}}, {{region.name}} {{postcode.name}}, {{country.name}}' }, () => {}),
