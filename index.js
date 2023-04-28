@@ -204,7 +204,7 @@ function Geocoder(indexes, options) {
             source.geocoder_address_order = info.geocoder_address_order || 'ascending'; // get expected address order from index-level setting
             source.geocoder_ignore_order = info.geocoder_ignore_order || false; // if true, don't apply `backy` penalty if this layer's matches are not in the expected order (eg US postcodes)
             source.geocoder_layer = (info.geocoder_layer || '').split('.').shift();
-            source.geocoder_tokens = info.geocoder_tokens || {};
+            source.geocoder_tokens = JSON.parse(info.geocoder_tokens) || {};
             source.geocoder_inverse_tokens = options.geocoder_inverse_tokens || {};
             source.geocoder_inherit_score = info.geocoder_inherit_score || false;
             source.geocoder_grant_score = info.hasOwnProperty('geocoder_grant_score') ? info.geocoder_grant_score : true;
@@ -221,11 +221,26 @@ function Geocoder(indexes, options) {
                     source.geocoder_frequent_word_list.add(word.toLowerCase());
                 }
             }
-            source.categorized_replacement_words = token.categorizeTokenReplacements(info.geocoder_tokens);
+            source.categorized_replacement_words = token.categorizeTokenReplacements(source.geocoder_tokens);
             source.simple_replacer = token.createSimpleReplacer(source.categorized_replacement_words.simple);
             source.complex_query_replacer = token.createComplexReplacer(source.categorized_replacement_words.complex, { includeRelevanceReduction: false });
             source.complex_indexing_replacer = token.createComplexReplacer(source.categorized_replacement_words.complex, { includeUnambiguous: true , includeRelevanceReduction: true });
             source.format_helpers = formatHelpers;
+
+            // Debug Logs
+            console.log("Geocoder Name");
+            console.log(name);
+            console.log("Geocoder Tokens");
+            console.log(JSON.stringify(source.geocoder_tokens));
+            console.log("Geocoder Format");
+            console.log(source.geocoder_format);
+            console.log("Geocoder Address");
+            console.log(source.geocoder_address);
+            console.log("Geocoder Address Order");
+            console.log(source.geocoder_address_order);
+            console.log("Geocoder Expected Number Order");
+            console.log(source.geocoder_expected_number_order);
+
 
             source.categories = false;
             if (info.geocoder_categories) {
