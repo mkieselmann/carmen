@@ -11,3 +11,5 @@ npm-debug.log
 coverage.lcov
 yarn-error.log
 .idea/
+
+.DS_Store
